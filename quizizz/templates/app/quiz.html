@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #3e206d, #a4508b);
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .quiz-container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+        .question {
+            font-size: 28px;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .option {
+            background-color: #4a90e2;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 45%;
+            text-align: center;
+            font-size: 18px;
+            margin: 10px 0;
+            transition: background-color 0.3s, transform 0.3s;
+            animation: fadeInUp 0.5s ease-in-out;
+        }
+        .option:hover {
+            background-color: #357ABD;
+            transform: scale(1.05);
+        }
+        .option.correct {
+            background-color: #28a745;
+        }
+        .option.incorrect {
+            background-color: #dc3545;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-name {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 500;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .background-animation li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: animate 20s linear infinite;
+            bottom: -150px;
+        }
+        .background-animation li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+        .background-animation li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 10s;
+        }
+        .background-animation li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+        .background-animation li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+        .background-animation li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+        .background-animation li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+        .background-animation li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+        .background-animation li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+        .progress-circle {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+        }
+        .progress-circle svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .progress-circle svg circle {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+        }
+        .progress-circle svg .bg {
+            stroke: #ddd;
+        }
+        .progress-circle svg .progress {
+            stroke: #4a90e2;
+        }
+        .progress-circle .timer-text {
+            position: relative;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <ul class="background-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <div class="quiz-container">
+        <div class="user-name">{{ name }}</div>
+        <div class="progress-circle">
+            <svg>
+                <circle class="bg" cx="50" cy="50" r="45"></circle>
+                <circle class="progress" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="timer-text" id="timer">15</div>
+        </div>
+        <div class="question animate__animated animate__fadeIn" id="question">{{ questions.0.text }}</div>
+        <div class="options" id="options">
+            {% for answer in questions.0.answers.all %}
+            <div class="option animate__animated animate__fadeInUp" data-answer="{{ answer.is_correct }}">{{ answer.text }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const questionsData = {{ questions|safe }};
+            let currentQuestionIndex = 0;
+            const optionsContainer = document.getElementById('options');
+            const questionContainer = document.getElementById('question');
+            const timerElement = document.getElementById('timer');
+            const progressCircle = document.querySelector('.progress-circle .progress');
+            let timer;
+            const totalTime = 15;
+            const radius = 45;
+            const circumference = 2 * Math.PI * radius;
+            progressCircle.style.strokeDasharray = circumference;
+            progressCircle.style.strokeDashoffset = circumference;
+
+            function setProgress(percent) {
+                const offset = circumference - (percent / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+
+            function startTimer() {
+                let timeLeft = totalTime;
+                timerElement.innerText = timeLeft;
+                setProgress(100);
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerElement.innerText = timeLeft;
+                    setProgress((timeLeft / totalTime) * 100);
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questionsData.length) {
+                            renderQuestion();
+                        } else {
+                            showCompletionMessage();
+                        }
+                    }
+                }, 1000);
+            }
+
+            function renderQuestion() {
+                const question = questionsData[currentQuestionIndex];
+                questionContainer.innerText = question.text;
+                optionsContainer.innerHTML = '';
+                question.answers.forEach(answer => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option animate__animated animate__fadeInUp';
+                    optionDiv.setAttribute('data-answer', answer.is_correct);
+                    optionDiv.innerText = answer.text;
+                    optionsContainer.appendChild(optionDiv);
+                    optionDiv.addEventListener('click', (e) => {
+                        clearInterval(timer);
+                        const isCorrect = e.target.getAttribute('data-answer') === 'True';
+                        e.target.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        setTimeout(() => {
+                            currentQuestionIndex++;
+                            if (currentQuestionIndex < questionsData.length) {
+                                renderQuestion();
+                            } else {
+                                showCompletionMessage();
+                            }
+                        }, 1000);
+                    });
+                });
+                startTimer();
+            }
+
+            function showCompletionMessage() {
+                questionContainer.innerText = 'Chúc mừng, bạn đã hoàn thành bài quiz!';
+                optionsContainer.innerHTML = '';
+                document.querySelector('.progress-circle').style.display = 'none';
+                launchConfetti();
+            }
+
+            function launchConfetti() {
+                const confettiSettings = { target: 'confetti-canvas' };
+                const confetti = new ConfettiGenerator(confettiSettings);
+                confetti.render();
+            }
+
+            renderQuestion();
+        });
+
+        class ConfettiGenerator {
+            constructor(params) {
+                this.maxParticleCount = 150;
+                this.particleSpeed = 2;
+                this.particles = [];
+                this.target = params.target;
+                this.canvas = document.getElementById(this.target);
+                this.context = this.canvas.getContext('2d');
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+                this.canvas.style.position = 'fixed';
+                this.canvas.style.top = '0';
+                this.canvas.style.left = '0';
+                this.canvas.style.pointerEvents = 'none';
+                window.addEventListener('resize', () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                    this.width = window.innerWidth;
+                    this.height = window.innerHeight;
+                });
+                this.createParticles();
+            }
+
+            createParticles() {
+                for (let i = 0; i < this.maxParticleCount; i++) {
+                    this.particles.push(this.resetParticle({ x: Math.random() * this.width, y: Math.random() * this.height }));
+                }
+                this.animateParticles();
+            }
+
+            resetParticle(particle) {
+                return {
+                    ...particle,
+                    color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.random() + 0.5})`,
+                    diameter: Math.random() * 10 + 5,
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngle: Math.random() * Math.PI,
+                    tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+                };
+            }
+
+            animateParticles() {
+                this.context.clearRect(0, 0, this.width, this.height);
+                this.particles.forEach((particle, index) => {
+                    particle.tiltAngle += particle.tiltAngleIncrement;
+                    particle.x += Math.sin(particle.tiltAngle) * 2;
+                    particle.y += (Math.cos(particle.tiltAngle) + particle.diameter + this.particleSpeed) * 0.5;
+                    if (particle.x > this.width + 20 || particle.x < -20 || particle.y > this.height) {
+                        this.particles[index] = this.resetParticle({ x: Math.random() * this.width, y: -10 });
+                    }
+                    this.context.beginPath();
+                    this.context.lineWidth = particle.diameter;
+                    this.context.strokeStyle = particle.color;
+                    this.context.moveTo(particle.x + particle.tilt + particle.diameter * 0.5, particle.y);
+                    this.context.lineTo(particle.x + particle.tilt, particle.y + particle.tilt + particle.diameter * 0.5);
+                    this.context.stroke();
+                });
+                requestAnimationFrame(() => this.animateParticles());
+            }
+        }
+    </script>
+</body>
+</html>

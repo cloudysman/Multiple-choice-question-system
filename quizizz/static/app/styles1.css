@@ -1,0 +1,95 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #333;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+header h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #555;
+    border-radius: 5px;
+    background-color: #222;
+    color: #ddd;
+    transition: border 0.3s ease-in-out;
+}
+
+input[type="text"]:focus {
+    border-color: #4CAF50;
+}
+
+.start-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.start-btn:hover {
+    background-color: #66BB6A;
+}
+
+input[type="checkbox"] {
+    accent-color: #4CAF50;
+}
+
+.settings .option {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.settings .option label {
+    flex-grow: 1;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+input[type="checkbox"]:hover {
+    transform: scale(1.7);
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+}
+
+button:hover, input[type="checkbox"]:hover {
+    transform: scale(1.05);
+}
